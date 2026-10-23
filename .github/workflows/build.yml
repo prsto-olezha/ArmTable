@@ -21,6 +21,7 @@ jobs:
             paths: |
               src-tauri/target/release/bundle/msi/*.msi
               src-tauri/target/release/bundle/nsis/*.exe
+              src-tauri/target/release/armtable.exe
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
