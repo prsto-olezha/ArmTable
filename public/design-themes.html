@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<title>ArmTable — варианты стилистики</title>
+<style>
+/* ── Базовая раскладка (одинакова для всех тем) ─────── */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Segoe UI', Inter, system-ui, sans-serif; }
+section { min-height: 100vh; padding-bottom: 48px; }
+.demo-topbar { display: flex; align-items: center; gap: 12px; padding: 12px 26px; }
+.demo-brand { font-size: 19px; font-weight: 400; }
+.demo-brand b { font-weight: 800; }
+.demo-note { margin-left: auto; font-size: 12.5px; opacity: 0.65; }
+.demo-body { max-width: 1080px; margin: 0 auto; padding: 22px 26px; }
+.demo-h { font-size: 22px; font-weight: 800; margin: 6px 0 2px; }
+.demo-d { font-size: 14px; opacity: 0.7; margin: 0 0 20px; }
+.match { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; padding: 14px 18px; border-radius: 14px; margin-bottom: 10px; }
+.side { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.side.right { text-align: right; }
+.nm { font-weight: 700; font-size: 16px; }
+.sub { font-size: 12.5px; opacity: 0.65; }
+.mid { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.score { font-weight: 800; font-variant-numeric: tabular-nums; min-width: 78px; text-align: center; border-radius: 10px; padding: 7px 13px; font-size: 21px; letter-spacing: 1px; }
+.chip { font: inherit; font-weight: 700; font-size: 14px; border-radius: 9px; padding: 7px 11px; cursor: pointer; }
+.chip.active { }
+.x { font-size: 15px; opacity: 0.7; padding: 4px; }
+.round-nav { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; flex-wrap: wrap; }
+.rbtn { font: inherit; font-weight: 600; font-size: 14px; border-radius: 10px; padding: 9px 14px; cursor: pointer; }
+.rlabel { font-size: 16px; font-weight: 800; min-width: 150px; text-align: center; padding: 9px 18px; border-radius: 12px; font-variant-numeric: tabular-nums; }
+.rprog { font-size: 14px; opacity: 0.75; }
+.pod3 { display: flex; gap: 12px; margin: 18px 0 14px; flex-wrap: wrap; }
+.spot { flex: 1; min-width: 170px; padding: 12px 14px; border-radius: 12px; position: relative; overflow: hidden; }
+.med { font-size: 21px; display: block; }
+.pn { display: block; font-weight: 800; margin-top: 2px; }
+.pm { font-size: 12.5px; opacity: 0.7; }
+.spot::after { position: absolute; right: 8px; bottom: -22px; font-size: 84px; font-weight: 800; line-height: 1; opacity: 0.08; pointer-events: none; }
+.spot.gold::after { content: '1'; } .spot.silver::after { content: '2'; } .spot.bronze::after { content: '3'; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tbl th, .tbl td { padding: 7px 10px; text-align: left; }
+.tbl th { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; }
+.tbl td.n { text-align: center; font-variant-numeric: tabular-nums; }
+
+/* ═══ ТЕМА A — «Тёмное табло» ═══ */
+.a { background: linear-gradient(180deg, #0b111c 0%, #101a29 100%); color: #e8eef6; }
+.a .demo-topbar { background: #0a0f18; border-bottom: 3px solid #ffc94d; }
+.a .demo-brand { color: #fff; } .a .demo-brand b { color: #ffc94d; }
+.a .demo-h { color: #fff; }
+.a .match { background: #151f30; border: 1px solid #223052; border-left: 5px solid #2a3a5c; }
+.a .match.done { border-left-color: #37d16b; background: linear-gradient(90deg, #12251a 0%, #151f30 40%); }
+.a .side.win .nm { color: #4ade80; }
+.a .score { background: #070b13; color: #ffc94d; box-shadow: inset 0 0 14px rgba(255,201,77,.12), 0 0 0 1px #223052; text-shadow: 0 0 12px rgba(255,201,77,.35); }
+.a .score.empty { background: #0d1523; color: #3d4c63; box-shadow: 0 0 0 1px #1a2740; text-shadow: none; }
+.a .chip { background: #101a29; color: #c7d3e4; border: 1.5px solid #2a3a5c; }
+.a .chip.active { background: #12351f; color: #4ade80; border-color: #37d16b; box-shadow: 0 0 12px -2px rgba(55,209,107,.5); }
+.a .rbtn { background: #151f30; color: #c7d3e4; border: 1px solid #2a3a5c; }
+.a .rlabel { background: #070b13; color: #ffc94d; border: 1px solid #223052; text-shadow: 0 0 10px rgba(255,201,77,.3); }
+.a .spot { background: #151f30; border: 1px solid #223052; border-top: 4px solid #3d4c63; }
+.a .spot.gold { border-top-color: #ffc94d; } .a .spot.silver { border-top-color: #9fb0c8; } .a .spot.bronze { border-top-color: #c98a52; }
+.a .spot.gold::after { color: #ffc94d; } .a .spot.silver::after { color: #9fb0c8; } .a .spot.bronze::after { color: #c98a52; }
+.a .tbl th { color: #7e93b4; border-bottom: 2px solid #223052; }
+.a .tbl td { border-bottom: 1px solid #1a2740; }
+.a .tbl tr:last-child td { border-bottom: none; }
+.a .tbl .p1 td { background: rgba(255,201,77,.09); box-shadow: inset 3px 0 0 #ffc94d; }
+.a .tbl .p2 td { background: rgba(159,176,200,.08); box-shadow: inset 3px 0 0 #9fb0c8; }
+.a .tbl .p3 td { background: rgba(201,138,82,.09); box-shadow: inset 3px 0 0 #c98a52; }
+
+/* ═══ ТЕМА B — «Чистый спорт» ═══ */
+.b { background: #f6f6f4; color: #111; }
+.b .demo-topbar { background: #fff; border-bottom: 2px solid #111; }
+.b .demo-brand b { color: #e63a12; }
+.b .match { background: #fff; border: 1px solid #111; border-left: 6px solid #111; border-radius: 0; }
+.b .match.done { border-left-color: #e63a12; }
+.b .side.win .nm { color: #e63a12; }
+.b .score { background: #fff; color: #111; border: 2px solid #111; border-radius: 0; }
+.b .score.empty { color: #9aa; border-color: #ccc; }
+.b .chip { background: #fff; color: #111; border: 1.5px solid #111; border-radius: 0; }
+.b .chip.active { background: #111; color: #fff; border-color: #111; }
+.b .rbtn { background: #fff; color: #111; border: 1px solid #111; border-radius: 0; }
+.b .rlabel { background: #111; color: #fff; border-radius: 0; text-transform: uppercase; letter-spacing: 2px; }
+.b .spot { background: #fff; border: 1px solid #111; border-radius: 0; }
+.b .spot.gold { box-shadow: inset 0 6px 0 #e6a817; padding-top: 16px; }
+.b .spot.silver { box-shadow: inset 0 6px 0 #9aa7b4; padding-top: 16px; }
+.b .spot.bronze { box-shadow: inset 0 6px 0 #b0713b; padding-top: 16px; }
+.b .spot.gold::after { color: #e6a817; } .b .spot.silver::after { color: #9aa7b4; } .b .spot.bronze::after { color: #b0713b; }
+.b .tbl th { color: #111; border-bottom: 2px solid #111; }
+.b .tbl td { border-bottom: 1px solid #ddd; }
+.b .tbl tr:last-child td { border-bottom: none; }
+.b .tbl .p1 td { background: #fff1ec; box-shadow: inset 4px 0 0 #e63a12; }
+.b .tbl .p2 td { background: #f4f4f2; box-shadow: inset 4px 0 0 #111; }
+.b .tbl .p3 td { background: #fdf7ef; box-shadow: inset 4px 0 0 #b0713b; }
+
+/* ═══ ТЕМА C — «Неон-киберспорт» ═══ */
+.c { background:
+  radial-gradient(800px 420px at 85% -60px, rgba(124,58,237,.4), transparent 65%),
+  radial-gradient(700px 420px at 5% 105%, rgba(34,211,238,.28), transparent 60%),
+  #0b0714; color: #e6e1f5; }
+.c .demo-topbar { background: rgba(255,255,255,.03); border-bottom: 1px solid rgba(124,58,237,.55); }
+.c .demo-brand { color: #fff; }
+.c .demo-brand b { background: linear-gradient(90deg, #a78bfa, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.c .match { background: rgba(255,255,255,.045); border: 1px solid rgba(124,58,237,.4); border-left: 4px solid #7c3aed; border-radius: 12px; box-shadow: 0 0 26px -10px rgba(124,58,237,.55); }
+.c .match.done { border-left-color: #34d399; box-shadow: 0 0 26px -10px rgba(52,211,153,.55); }
+.c .side.win .nm { color: #6ee7b7; text-shadow: 0 0 14px rgba(52,211,153,.55); }
+.c .score { background: #120a24; color: #67e8f9; border: 1px solid #22d3ee; border-radius: 10px; box-shadow: 0 0 18px -4px rgba(34,211,238,.65), inset 0 0 12px rgba(34,211,238,.12); text-shadow: 0 0 10px rgba(34,211,238,.55); }
+.c .score.empty { color: #4a4470; border-color: #2c2450; box-shadow: none; text-shadow: none; }
+.c .chip { background: rgba(255,255,255,.05); color: #cdd3f0; border: 1.5px solid #3b2d66; }
+.c .chip.active { background: linear-gradient(135deg, #7c3aed, #0891b2); color: #fff; border-color: transparent; box-shadow: 0 0 16px -2px rgba(124,58,237,.85); }
+.c .rbtn { background: rgba(255,255,255,.05); color: #cdd3f0; border: 1px solid #3b2d66; border-radius: 10px; }
+.c .rlabel { background: #120a24; color: #a78bfa; border: 1px solid #7c3aed; box-shadow: 0 0 20px -6px rgba(124,58,237,.85); }
+.c .spot { background: rgba(255,255,255,.045); border: 1px solid rgba(124,58,237,.35); border-top: 3px solid #4a3d78; }
+.c .spot.gold { border-top-color: #fbbf24; box-shadow: 0 0 22px -8px rgba(251,191,36,.5); }
+.c .spot.silver { border-top-color: #c7d2fe; } .c .spot.bronze { border-top-color: #fb923c; }
+.c .spot.gold::after { color: #fbbf24; } .c .spot.silver::after { color: #c7d2fe; } .c .spot.bronze::after { color: #fb923c; }
+.c .tbl th { color: #9b8cc4; border-bottom: 2px solid #2c2450; }
+.c .tbl td { border-bottom: 1px solid #1d1734; }
+.c .tbl tr:last-child td { border-bottom: none; }
+.c .tbl .p1 td { background: rgba(251,191,36,.07); box-shadow: inset 3px 0 0 #fbbf24; }
+.c .tbl .p2 td { background: rgba(199,210,254,.06); box-shadow: inset 3px 0 0 #c7d2fe; }
+.c .tbl .p3 td { background: rgba(251,146,60,.07); box-shadow: inset 3px 0 0 #fb923c; }
+
+/* ═══ ТЕМА D — «Федерация» ═══ */
+.d { background: #f4efe4; color: #241d15; }
+.d .demo-topbar { background: #5d1f2b; border-bottom: 3px solid #c9a227; }
+.d .demo-brand { color: #fff; font-family: Georgia, serif; } .d .demo-brand b { color: #e9c46a; }
+.d .demo-h, .d .rlabel, .d .score { font-family: Georgia, 'Times New Roman', serif; }
+.d .demo-d { color: #6b5d4a; }
+.d .match { background: #fffdf8; border: 1px solid #d8cdb4; border-left: 5px solid #8a8171; border-radius: 6px; }
+.d .match.done { border-left-color: #2f6b46; background: linear-gradient(90deg, #f2f6ef 0%, #fffdf8 40%); }
+.d .side.win .nm { color: #2f6b46; }
+.d .score { background: #5d1f2b; color: #f3e7c8; border-radius: 4px; }
+.d .score.empty { background: #efe8d8; color: #a89a80; }
+.d .chip { background: #fffdf8; color: #3f3428; border: 1.5px solid #c9b98f; border-radius: 4px; }
+.d .chip.active { background: #5d1f2b; color: #f3e7c8; border-color: #5d1f2b; }
+.d .rbtn { background: #fffdf8; color: #3f3428; border: 1px solid #c9b98f; border-radius: 4px; }
+.d .rlabel { background: #5d1f2b; color: #e9c46a; border-radius: 4px; }
+.d .spot { background: #fffdf8; border: 1px solid #d8cdb4; border-top: 4px solid #8a8171; border-radius: 6px; }
+.d .spot.gold { border-top-color: #c9a227; } .d .spot.silver { border-top-color: #9aa7b4; } .d .spot.bronze { border-top-color: #a9683a; }
+.d .spot.gold::after { color: #c9a227; } .d .spot.silver::after { color: #9aa7b4; } .d .spot.bronze::after { color: #a9683a; }
+.d .tbl th { color: #5d1f2b; border-bottom: 2px solid #5d1f2b; font-family: Georgia, serif; }
+.d .tbl td { border-bottom: 1px solid #e4dbc6; }
+.d .tbl tr:last-child td { border-bottom: none; }
+.d .tbl .p1 td { background: #f7edd3; box-shadow: inset 3px 0 0 #c9a227; }
+.d .tbl .p2 td { background: #eff1f3; box-shadow: inset 3px 0 0 #9aa7b4; }
+.d .tbl .p3 td { background: #f6e9de; box-shadow: inset 3px 0 0 #a9683a; }
+/* ═══ ТЕМА E — «Глассморфизм» ═══ */
+.e { background:
+  radial-gradient(700px 500px at 12% 8%, rgba(255,99,132,.5), transparent 60%),
+  radial-gradient(800px 520px at 88% 18%, rgba(58,123,213,.5), transparent 62%),
+  radial-gradient(760px 560px at 55% 108%, rgba(155,93,229,.45), transparent 62%),
+  linear-gradient(160deg, #dfe7f5 0%, #e8e2f4 100%);
+  color: #1f2a44; }
+.e .demo-topbar { background: rgba(255,255,255,.5); backdrop-filter: blur(14px) saturate(1.5); border-bottom: 1px solid rgba(255,255,255,.7); }
+.e .demo-brand b { color: #3a7bd5; }
+.e .match { background: rgba(255,255,255,.5); backdrop-filter: blur(16px) saturate(1.5); border: 1px solid rgba(255,255,255,.75); border-radius: 18px; box-shadow: 0 8px 32px rgba(31,42,68,.14); border-left: 5px solid rgba(255,255,255,.8); }
+.e .match.done { border-left-color: #2fbf71; background: linear-gradient(90deg, rgba(47,191,113,.16), rgba(255,255,255,.5) 40%); }
+.e .side.win .nm { color: #1d8a4e; }
+.e .score { background: rgba(255,255,255,.66); color: #1f2a44; border: 1px solid rgba(255,255,255,.85); box-shadow: 0 4px 18px rgba(31,42,68,.12); }
+.e .score.empty { color: #8b95ad; box-shadow: inset 0 2px 8px rgba(31,42,68,.08); }
+.e .chip { background: rgba(255,255,255,.55); color: #33415e; border: 1.5px solid rgba(255,255,255,.85); box-shadow: 0 2px 10px rgba(31,42,68,.08); }
+.e .chip.active { background: linear-gradient(135deg, #3a7bd5, #9b5de5); color: #fff; border-color: transparent; box-shadow: 0 6px 18px -4px rgba(58,123,213,.5); }
+.e .rbtn { background: rgba(255,255,255,.55); color: #33415e; border: 1px solid rgba(255,255,255,.85); }
+.e .rlabel { background: rgba(255,255,255,.66); color: #1f2a44; border: 1px solid rgba(255,255,255,.9); box-shadow: 0 4px 18px rgba(31,42,68,.12); }
+.e .spot { background: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.75); border-top: 4px solid #8b95ad; box-shadow: 0 8px 32px rgba(31,42,68,.12); }
+.e .spot.gold { border-top-color: #e6a817; } .e .spot.silver { border-top-color: #9aa7b4; } .e .spot.bronze { border-top-color: #b0713b; }
+.e .spot.gold::after { color: #c98f10; } .e .spot.silver::after { color: #8494a5; } .e .spot.bronze::after { color: #9a6431; }
+.e .tbl th { color: #5c6b8a; border-bottom: 2px solid rgba(255,255,255,.9); background: rgba(255,255,255,.35); }
+.e .tbl td { border-bottom: 1px solid rgba(255,255,255,.6); }
+.e .tbl tr:last-child td { border-bottom: none; }
+.e .tbl .p1 td { background: rgba(230,168,23,.16); box-shadow: inset 3px 0 0 #e6a817; }
+.e .tbl .p2 td { background: rgba(154,167,180,.16); box-shadow: inset 3px 0 0 #9aa7b4; }
+.e .tbl .p3 td { background: rgba(176,113,59,.14); box-shadow: inset 3px 0 0 #b0713b; }
+
+/* ═══ ТЕМА F — «Material» ═══ */
+.f { background: #f1f3f4; color: #202124; }
+.f .demo-topbar { background: #1976d2; color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.2); }
+.f .demo-brand { color: #fff; } .f .demo-brand b { color: #90caf9; }
+.f .match { background: #fff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.14), 0 1px 2px rgba(0,0,0,.22); border-left: 4px solid #e0e0e0; }
+.f .match.done { border-left-color: #2e7d32; }
+.f .side.win .nm { color: #2e7d32; }
+.f .score { background: #e3f2fd; color: #0d47a1; border-radius: 12px; }
+.f .score.empty { background: #eceff1; color: #9aa0a6; }
+.f .chip { background: #fff; color: #3c4043; border: 1px solid #dadce0; border-radius: 20px; }
+.f .chip.active { background: #1976d2; color: #fff; border-color: #1976d2; box-shadow: 0 1px 3px rgba(25,118,210,.5); }
+.f .rbtn { background: #fff; color: #1976d2; border: none; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,.14), 0 1px 2px rgba(0,0,0,.22); }
+.f .rlabel { background: #1976d2; color: #fff; border-radius: 12px; }
+.f .spot { background: #fff; border-top: 4px solid #dadce0; box-shadow: 0 1px 3px rgba(0,0,0,.14), 0 1px 2px rgba(0,0,0,.22); }
+.f .spot.gold { border-top-color: #f9a825; } .f .spot.silver { border-top-color: #b0bec5; } .f .spot.bronze { border-top-color: #a1887f; }
+.f .spot.gold::after { color: #f9a825; } .f .spot.silver::after { color: #b0bec5; } .f .spot.bronze::after { color: #a1887f; }
+.f .tbl th { color: #5f6368; border-bottom: 1px solid #e8eaed; background: #fff; }
+.f .tbl td { border-bottom: 1px solid #f1f3f4; }
+.f .tbl tr:last-child td { border-bottom: none; }
+.f .tbl .p1 td { background: #fff8e1; box-shadow: inset 3px 0 0 #f9a825; }
+.f .tbl .p2 td { background: #f3f6f9; box-shadow: inset 3px 0 0 #b0bec5; }
+.f .tbl .p3 td { background: #fbeee7; box-shadow: inset 3px 0 0 #a1887f; }
+
+/* ═══ ТЕМА G — «Неоморфизм» ═══ */
+.g { background: #e3e8f0; color: #44506a; }
+.g .demo-topbar { background: #e3e8f0; margin: 14px 18px 0; border-radius: 16px; box-shadow: -8px -8px 16px rgba(255,255,255,.9), 8px 8px 16px rgba(163,177,198,.55); }
+.g .demo-brand b { color: #5b7cfa; }
+.g .demo-h { color: #3a4664; }
+.g .match { background: #e3e8f0; border-radius: 18px; box-shadow: -8px -8px 16px rgba(255,255,255,.9), 8px 8px 16px rgba(163,177,198,.55); }
+.g .match.done { box-shadow: inset -6px -6px 12px rgba(255,255,255,.85), inset 6px 6px 12px rgba(163,177,198,.6); }
+.g .side.win .nm { color: #2f9e5f; }
+.g .score { background: #e3e8f0; color: #5b7cfa; box-shadow: inset -5px -5px 10px rgba(255,255,255,.9), inset 5px 5px 10px rgba(163,177,198,.6); }
+.g .score.empty { color: #a4b0c4; }
+.g .chip { background: #e3e8f0; color: #44506a; border: none; box-shadow: -5px -5px 10px rgba(255,255,255,.9), 5px 5px 10px rgba(163,177,198,.55); }
+.g .chip.active { background: linear-gradient(135deg, #5b7cfa, #7c5bfa); color: #fff; box-shadow: 0 6px 14px -4px rgba(91,124,250,.6); }
+.g .rbtn { background: #e3e8f0; color: #44506a; border: none; box-shadow: -5px -5px 10px rgba(255,255,255,.9), 5px 5px 10px rgba(163,177,198,.55); }
+.g .rlabel { background: #e3e8f0; color: #5b7cfa; box-shadow: inset -5px -5px 10px rgba(255,255,255,.9), inset 5px 5px 10px rgba(163,177,198,.6); }
+.g .spot { background: #e3e8f0; box-shadow: -8px -8px 16px rgba(255,255,255,.9), 8px 8px 16px rgba(163,177,198,.55); }
+.g .spot.gold::after { color: #c98f10; } .g .spot.silver::after { color: #8494a5; } .g .spot.bronze::after { color: #9a6431; }
+.g .tbl th { color: #8a96b0; border-bottom: 2px solid rgba(163,177,198,.4); }
+.g .tbl td { border-bottom: 1px solid rgba(163,177,198,.35); }
+.g .tbl tr:last-child td { border-bottom: none; }
+.g .tbl .p1 td { background: rgba(91,124,250,.09); box-shadow: inset 3px 0 0 #5b7cfa; }
+.g .tbl .p2 td { background: rgba(132,148,165,.12); box-shadow: inset 3px 0 0 #8494a5; }
+.g .tbl .p3 td { background: rgba(154,100,49,.1); box-shadow: inset 3px 0 0 #9a6431; }
+</style>
+</head>
+<body>
+
+<!-- ═══ A ═══ -->
+<section class="a" id="t1">
+  <div class="demo-topbar">
+    <span class="demo-brand">💪 Arm<b>Table</b></span>
+    <span class="demo-note">круговые турниры · офлайн</span>
+  </div>
+  <div class="demo-body">
+    <div class="demo-h">A — «Тёмное табло»</div>
+    <p class="demo-d">Тёмный зал + проектор: счёт светится как на арене. Контрастный, «вечерний» вариант.</p>
+    <div class="round-nav">
+      <button class="rbtn">‹ Назад</button><span class="rlabel">Тур 3 из 5</span><button class="rbtn">Вперёд ›</button>
+      <span class="rprog">сыграно 1 из 2</span>
+    </div>
+    <div class="match done">
+      <div class="side win"><span class="nm">Олег Олегов</span><span class="sub">№ 2 · 72 кг</span></div>
+      <div class="mid"><span class="score">2 : 0</span><span class="x">✕</span></div>
+      <div class="side right"><span class="nm">Иван Иванов</span><span class="sub">70 кг · № 5</span></div>
+    </div>
+    <div class="match">
+      <div class="side"><span class="nm">Алексей Алексеев</span><span class="sub">№ 3 · 80 кг</span></div>
+      <div class="mid">
+        <button class="chip">2:0</button><button class="chip">2:1</button>
+        <span class="score empty">– : –</span>
+        <button class="chip">0:2</button><button class="chip active">1:2</button>
+      </div>
+      <div class="side right"><span class="nm">Сергей Сидоров</span><span class="sub">68 кг · № 4</span></div>
+    </div>
+    <div class="pod3">
+      <div class="spot gold"><span class="med">🥇</span><span class="pn">Сергей Сидоров</span><span class="pm">№ 4 · 68 кг · 2 очк.</span></div>
+      <div class="spot silver"><span class="med">🥈</span><span class="pn">Иван Иванов</span><span class="pm">№ 5 · 70 кг · 2 очк.</span></div>
+      <div class="spot bronze"><span class="med">🥉</span><span class="pn">Алексей Алексеев</span><span class="pm">№ 3 · 80 кг · 2 очк.</span></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Место</th><th>ФИО</th><th>И</th><th>В</th><th>П</th><th>Очки</th></tr>
+      <tr class="p1"><td class="n">1</td><td>Сергей Сидоров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p2"><td class="n">2</td><td>Иван Иванов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p3"><td class="n">3</td><td>Алексей Алексеев</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">4</td><td>Пётр Петров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">5</td><td>Олег Олегов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ B ═══ -->
+<section class="b" id="t2">
+  <div class="demo-topbar">
+    <span class="demo-brand">💪 Arm<b>Table</b></span>
+    <span class="demo-note">круговые турниры · офлайн</span>
+  </div>
+  <div class="demo-body">
+    <div class="demo-h">B — «Чистый спорт»</div>
+    <p class="demo-d">Светлый минимализм: белые карточки, жёсткие линии, один яркий акцент. Строго и быстро читается.</p>
+    <div class="round-nav">
+      <button class="rbtn">‹ Назад</button><span class="rlabel">Тур 3 из 5</span><button class="rbtn">Вперёд ›</button>
+      <span class="rprog">сыграно 1 из 2</span>
+    </div>
+    <div class="match done">
+      <div class="side win"><span class="nm">Олег Олегов</span><span class="sub">№ 2 · 72 кг</span></div>
+      <div class="mid"><span class="score">2 : 0</span><span class="x">✕</span></div>
+      <div class="side right"><span class="nm">Иван Иванов</span><span class="sub">70 кг · № 5</span></div>
+    </div>
+    <div class="match">
+      <div class="side"><span class="nm">Алексей Алексеев</span><span class="sub">№ 3 · 80 кг</span></div>
+      <div class="mid">
+        <button class="chip">2:0</button><button class="chip">2:1</button>
+        <span class="score empty">– : –</span>
+        <button class="chip">0:2</button><button class="chip active">1:2</button>
+      </div>
+      <div class="side right"><span class="nm">Сергей Сидоров</span><span class="sub">68 кг · № 4</span></div>
+    </div>
+    <div class="pod3">
+      <div class="spot gold"><span class="med">🥇</span><span class="pn">Сергей Сидоров</span><span class="pm">№ 4 · 68 кг · 2 очк.</span></div>
+      <div class="spot silver"><span class="med">🥈</span><span class="pn">Иван Иванов</span><span class="pm">№ 5 · 70 кг · 2 очк.</span></div>
+      <div class="spot bronze"><span class="med">🥉</span><span class="pn">Алексей Алексеев</span><span class="pm">№ 3 · 80 кг · 2 очк.</span></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Место</th><th>ФИО</th><th>И</th><th>В</th><th>П</th><th>Очки</th></tr>
+      <tr class="p1"><td class="n">1</td><td>Сергей Сидоров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p2"><td class="n">2</td><td>Иван Иванов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p3"><td class="n">3</td><td>Алексей Алексеев</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">4</td><td>Пётр Петров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">5</td><td>Олег Олегов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ C ═══ -->
+<section class="c" id="t3">
+  <div class="demo-topbar">
+    <span class="demo-brand">💪 Arm<b>Table</b></span>
+    <span class="demo-note">круговые турниры · офлайн</span>
+  </div>
+  <div class="demo-body">
+    <div class="demo-h">C — «Неон-киберспорт»</div>
+    <p class="demo-d">Тёмный фиолетовый фон, неоновые свечения, градиенты. Ярко и современно, эффектно на экране.</p>
+    <div class="round-nav">
+      <button class="rbtn">‹ Назад</button><span class="rlabel">Тур 3 из 5</span><button class="rbtn">Вперёд ›</button>
+      <span class="rprog">сыграно 1 из 2</span>
+    </div>
+    <div class="match done">
+      <div class="side win"><span class="nm">Олег Олегов</span><span class="sub">№ 2 · 72 кг</span></div>
+      <div class="mid"><span class="score">2 : 0</span><span class="x">✕</span></div>
+      <div class="side right"><span class="nm">Иван Иванов</span><span class="sub">70 кг · № 5</span></div>
+    </div>
+    <div class="match">
+      <div class="side"><span class="nm">Алексей Алексеев</span><span class="sub">№ 3 · 80 кг</span></div>
+      <div class="mid">
+        <button class="chip">2:0</button><button class="chip">2:1</button>
+        <span class="score empty">– : –</span>
+        <button class="chip">0:2</button><button class="chip active">1:2</button>
+      </div>
+      <div class="side right"><span class="nm">Сергей Сидоров</span><span class="sub">68 кг · № 4</span></div>
+    </div>
+    <div class="pod3">
+      <div class="spot gold"><span class="med">🥇</span><span class="pn">Сергей Сидоров</span><span class="pm">№ 4 · 68 кг · 2 очк.</span></div>
+      <div class="spot silver"><span class="med">🥈</span><span class="pn">Иван Иванов</span><span class="pm">№ 5 · 70 кг · 2 очк.</span></div>
+      <div class="spot bronze"><span class="med">🥉</span><span class="pn">Алексей Алексеев</span><span class="pm">№ 3 · 80 кг · 2 очк.</span></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Место</th><th>ФИО</th><th>И</th><th>В</th><th>П</th><th>Очки</th></tr>
+      <tr class="p1"><td class="n">1</td><td>Сергей Сидоров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p2"><td class="n">2</td><td>Иван Иванов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p3"><td class="n">3</td><td>Алексей Алексеев</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">4</td><td>Пётр Петров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">5</td><td>Олег Олегов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ D ═══ -->
+<section class="d" id="t4">
+  <div class="demo-topbar">
+    <span class="demo-brand">💪 Arm<b>Table</b></span>
+    <span class="demo-note">круговые турниры · офлайн</span>
+  </div>
+  <div class="demo-body">
+    <div class="demo-h">D — «Федерация»</div>
+    <p class="demo-d">Бордо + золото + крем, серифные заголовки. Стиль официального протокола федерации, солидно.</p>
+    <div class="round-nav">
+      <button class="rbtn">‹ Назад</button><span class="rlabel">Тур 3 из 5</span><button class="rbtn">Вперёд ›</button>
+      <span class="rprog">сыграно 1 из 2</span>
+    </div>
+    <div class="match done">
+      <div class="side win"><span class="nm">Олег Олегов</span><span class="sub">№ 2 · 72 кг</span></div>
+      <div class="mid"><span class="score">2 : 0</span><span class="x">✕</span></div>
+      <div class="side right"><span class="nm">Иван Иванов</span><span class="sub">70 кг · № 5</span></div>
+    </div>
+    <div class="match">
+      <div class="side"><span class="nm">Алексей Алексеев</span><span class="sub">№ 3 · 80 кг</span></div>
+      <div class="mid">
+        <button class="chip">2:0</button><button class="chip">2:1</button>
+        <span class="score empty">– : –</span>
+        <button class="chip">0:2</button><button class="chip active">1:2</button>
+      </div>
+      <div class="side right"><span class="nm">Сергей Сидоров</span><span class="sub">68 кг · № 4</span></div>
+    </div>
+    <div class="pod3">
+      <div class="spot gold"><span class="med">🥇</span><span class="pn">Сергей Сидоров</span><span class="pm">№ 4 · 68 кг · 2 очк.</span></div>
+      <div class="spot silver"><span class="med">🥈</span><span class="pn">Иван Иванов</span><span class="pm">№ 5 · 70 кг · 2 очк.</span></div>
+      <div class="spot bronze"><span class="med">🥉</span><span class="pn">Алексей Алексеев</span><span class="pm">№ 3 · 80 кг · 2 очк.</span></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Место</th><th>ФИО</th><th>И</th><th>В</th><th>П</th><th>Очки</th></tr>
+      <tr class="p1"><td class="n">1</td><td>Сергей Сидоров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p2"><td class="n">2</td><td>Иван Иванов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p3"><td class="n">3</td><td>Алексей Алексеев</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">4</td><td>Пётр Петров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">5</td><td>Олег Олегов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ E ═══ -->
+<section class="e" id="t5">
+  <div class="demo-topbar">
+    <span class="demo-brand">💪 Arm<b>Table</b></span>
+    <span class="demo-note">круговые турниры · офлайн</span>
+  </div>
+  <div class="demo-body">
+    <div class="demo-h">E — «Глассморфизм»</div>
+    <p class="demo-d">Матовые стеклянные панели над цветным градиентом, полупрозрачность и размытие. Легко и современно.</p>
+    <div class="round-nav">
+      <button class="rbtn">‹ Назад</button><span class="rlabel">Тур 3 из 5</span><button class="rbtn">Вперёд ›</button>
+      <span class="rprog">сыграно 1 из 2</span>
+    </div>
+    <div class="match done">
+      <div class="side win"><span class="nm">Олег Олегов</span><span class="sub">№ 2 · 72 кг</span></div>
+      <div class="mid"><span class="score">2 : 0</span><span class="x">✕</span></div>
+      <div class="side right"><span class="nm">Иван Иванов</span><span class="sub">70 кг · № 5</span></div>
+    </div>
+    <div class="match">
+      <div class="side"><span class="nm">Алексей Алексеев</span><span class="sub">№ 3 · 80 кг</span></div>
+      <div class="mid">
+        <button class="chip">2:0</button><button class="chip">2:1</button>
+        <span class="score empty">– : –</span>
+        <button class="chip">0:2</button><button class="chip active">1:2</button>
+      </div>
+      <div class="side right"><span class="nm">Сергей Сидоров</span><span class="sub">68 кг · № 4</span></div>
+    </div>
+    <div class="pod3">
+      <div class="spot gold"><span class="med">🥇</span><span class="pn">Сергей Сидоров</span><span class="pm">№ 4 · 68 кг · 2 очк.</span></div>
+      <div class="spot silver"><span class="med">🥈</span><span class="pn">Иван Иванов</span><span class="pm">№ 5 · 70 кг · 2 очк.</span></div>
+      <div class="spot bronze"><span class="med">🥉</span><span class="pn">Алексей Алексеев</span><span class="pm">№ 3 · 80 кг · 2 очк.</span></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Место</th><th>ФИО</th><th>И</th><th>В</th><th>П</th><th>Очки</th></tr>
+      <tr class="p1"><td class="n">1</td><td>Сергей Сидоров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p2"><td class="n">2</td><td>Иван Иванов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p3"><td class="n">3</td><td>Алексей Алексеев</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">4</td><td>Пётр Петров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">5</td><td>Олег Олегов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ F ═══ -->
+<section class="f" id="t6">
+  <div class="demo-topbar">
+    <span class="demo-brand">💪 Arm<b>Table</b></span>
+    <span class="demo-note">круговые турниры · офлайн</span>
+  </div>
+  <div class="demo-body">
+    <div class="demo-h">F — «Material»</div>
+    <p class="demo-d">Классический Google Material: белые карточки с двухслойными тенями, синий primary, пилюли-чипы. Спокойный и знакомый.</p>
+    <div class="round-nav">
+      <button class="rbtn">‹ Назад</button><span class="rlabel">Тур 3 из 5</span><button class="rbtn">Вперёд ›</button>
+      <span class="rprog">сыграно 1 из 2</span>
+    </div>
+    <div class="match done">
+      <div class="side win"><span class="nm">Олег Олегов</span><span class="sub">№ 2 · 72 кг</span></div>
+      <div class="mid"><span class="score">2 : 0</span><span class="x">✕</span></div>
+      <div class="side right"><span class="nm">Иван Иванов</span><span class="sub">70 кг · № 5</span></div>
+    </div>
+    <div class="match">
+      <div class="side"><span class="nm">Алексей Алексеев</span><span class="sub">№ 3 · 80 кг</span></div>
+      <div class="mid">
+        <button class="chip">2:0</button><button class="chip">2:1</button>
+        <span class="score empty">– : –</span>
+        <button class="chip">0:2</button><button class="chip active">1:2</button>
+      </div>
+      <div class="side right"><span class="nm">Сергей Сидоров</span><span class="sub">68 кг · № 4</span></div>
+    </div>
+    <div class="pod3">
+      <div class="spot gold"><span class="med">🥇</span><span class="pn">Сергей Сидоров</span><span class="pm">№ 4 · 68 кг · 2 очк.</span></div>
+      <div class="spot silver"><span class="med">🥈</span><span class="pn">Иван Иванов</span><span class="pm">№ 5 · 70 кг · 2 очк.</span></div>
+      <div class="spot bronze"><span class="med">🥉</span><span class="pn">Алексей Алексеев</span><span class="pm">№ 3 · 80 кг · 2 очк.</span></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Место</th><th>ФИО</th><th>И</th><th>В</th><th>П</th><th>Очки</th></tr>
+      <tr class="p1"><td class="n">1</td><td>Сергей Сидоров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p2"><td class="n">2</td><td>Иван Иванов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p3"><td class="n">3</td><td>Алексей Алексеев</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">4</td><td>Пётр Петров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">5</td><td>Олег Олегов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ G ═══ -->
+<section class="g" id="t7">
+  <div class="demo-topbar">
+    <span class="demo-brand">💪 Arm<b>Table</b></span>
+    <span class="demo-note">круговые турниры · офлайн</span>
+  </div>
+  <div class="demo-body">
+    <div class="demo-h">G — «Неоморфизм»</div>
+    <p class="demo-d">Soft UI: элементы «выдавлены» из фона двойными мягкими тенями, вдавленный счёт. Нежно, но контраст ниже — зависит от освещения.</p>
+    <div class="round-nav">
+      <button class="rbtn">‹ Назад</button><span class="rlabel">Тур 3 из 5</span><button class="rbtn">Вперёд ›</button>
+      <span class="rprog">сыграно 1 из 2</span>
+    </div>
+    <div class="match done">
+      <div class="side win"><span class="nm">Олег Олегов</span><span class="sub">№ 2 · 72 кг</span></div>
+      <div class="mid"><span class="score">2 : 0</span><span class="x">✕</span></div>
+      <div class="side right"><span class="nm">Иван Иванов</span><span class="sub">70 кг · № 5</span></div>
+    </div>
+    <div class="match">
+      <div class="side"><span class="nm">Алексей Алексеев</span><span class="sub">№ 3 · 80 кг</span></div>
+      <div class="mid">
+        <button class="chip">2:0</button><button class="chip">2:1</button>
+        <span class="score empty">– : –</span>
+        <button class="chip">0:2</button><button class="chip active">1:2</button>
+      </div>
+      <div class="side right"><span class="nm">Сергей Сидоров</span><span class="sub">68 кг · № 4</span></div>
+    </div>
+    <div class="pod3">
+      <div class="spot gold"><span class="med">🥇</span><span class="pn">Сергей Сидоров</span><span class="pm">№ 4 · 68 кг · 2 очк.</span></div>
+      <div class="spot silver"><span class="med">🥈</span><span class="pn">Иван Иванов</span><span class="pm">№ 5 · 70 кг · 2 очк.</span></div>
+      <div class="spot bronze"><span class="med">🥉</span><span class="pn">Алексей Алексеев</span><span class="pm">№ 3 · 80 кг · 2 очк.</span></div>
+    </div>
+    <table class="tbl">
+      <tr><th>Место</th><th>ФИО</th><th>И</th><th>В</th><th>П</th><th>Очки</th></tr>
+      <tr class="p1"><td class="n">1</td><td>Сергей Сидоров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p2"><td class="n">2</td><td>Иван Иванов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr class="p3"><td class="n">3</td><td>Алексей Алексеев</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">4</td><td>Пётр Петров</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+      <tr><td class="n">5</td><td>Олег Олегов</td><td class="n">4</td><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr>
+    </table>
+  </div>
+</section>
+
+</body>
+</html>
